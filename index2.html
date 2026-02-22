@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEON RUSH | Mission Briefing</title>
+    <meta name="description"
+        content="Mission Briefing — You betrayed Sentinel AI. Every scanner is active. Run through neon streets, hack systems, or be erased.">
+    <meta name="theme-color" content="#020205">
+    <meta property="og:title" content="NEON RUSH | Mission Briefing">
+    <meta property="og:description"
+        content="Protocol: Hunter Activated. Read the mission briefing before your run begins.">
+    <meta property="og:type" content="website">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,5 95,50 50,95 5,50' fill='%2300f2ff'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --cyan: #00f2ff;
+            --magenta: #ff00ff;
+            --alert: #ff003c;
+            --bg: #020205;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Share Tech Mono', 'Courier New', Courier, monospace;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: white;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- BACKGROUND EFFECTS --- */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.4;
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%);
+            background-size: 100% 3px;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        /* --- COMPACT HEADER --- */
+        header {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .glitch-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: 6px;
+            color: var(--cyan);
+            text-shadow: 2px 1px var(--magenta);
+        }
+
+        .subtitle {
+            font-size: 0.7rem;
+            color: var(--magenta);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* --- COMPACT PANEL --- */
+        .hologram-panel {
+            width: 90%;
+            max-width: 500px;
+            background: rgba(0, 242, 255, 0.03);
+            border: 1px solid rgba(0, 242, 255, 0.2);
+            padding: 20px;
+            backdrop-filter: blur(5px);
+            position: relative;
+        }
+
+        .hologram-panel::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+            animation: scan-line 3s linear infinite;
+        }
+
+        @keyframes scan-line {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .typing-container {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #b0fbff;
+            min-height: 120px;
+            margin-bottom: 20px;
+        }
+
+        .cursor-blink {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background: var(--cyan);
+            animation: blink 0.8s step-end infinite;
+            vertical-align: text-bottom;
+            margin-left: 2px;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* --- COMPACT TILES --- */
+        .features-row {
+            display: flex;
+            justify-content: space-around;
+            gap: 8px;
+        }
+
+        .feature-tile {
+            flex: 1;
+            padding: 8px 2px;
+            text-align: center;
+            border: 1px solid rgba(0, 242, 255, 0.15);
+            background: rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .feature-tile:hover {
+            border-color: var(--cyan);
+            box-shadow: 0 0 10px var(--cyan);
+            transform: translateY(-2px);
+        }
+
+        .feature-icon {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .feature-label {
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            color: var(--cyan);
+        }
+
+        /* --- BUTTON --- */
+        .btn-initiate {
+            margin-top: 25px;
+            padding: 14px 40px;
+            background: transparent;
+            border: 1px solid var(--cyan);
+            color: var(--cyan);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-initiate::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 242, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-initiate:hover {
+            background: var(--cyan);
+            color: black;
+            box-shadow: 0 0 30px var(--cyan);
+            transform: scale(1.05);
+        }
+
+        .btn-initiate:hover::before {
+            left: 100%;
+        }
+
+        #alert-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--alert);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            animation: flash-alert 0.2s infinite;
+        }
+
+        @keyframes flash-alert {
+            0% {
+                opacity: 0.7;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.7;
+            }
+        }
+
+        #alert-overlay h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            letter-spacing: 5px;
+        }
+
+        #alert-overlay p {
+            font-family: 'Share Tech Mono', monospace;
+            margin-top: 10px;
+            letter-spacing: 2px;
+        }
+
+        .fade-out {
+            animation: fadeOut 0.3s forwards;
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .glitch-title {
+                font-size: 1.4rem;
+                letter-spacing: 4px;
+            }
+
+            .hologram-panel {
+                padding: 15px;
+            }
+
+            .typing-container {
+                font-size: 0.75rem;
+                min-height: 100px;
+            }
+
+            .feature-icon {
+                font-size: 1rem;
+            }
+
+            .feature-label {
+                font-size: 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .glitch-title {
+                font-size: 1.1rem;
+                letter-spacing: 3px;
+            }
+
+            .hologram-panel {
+                width: 95%;
+                padding: 12px;
+            }
+
+            .feature-tile {
+                padding: 6px 2px;
+            }
+
+            .btn-initiate {
+                padding: 12px 30px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="scanlines"></div>
+    <canvas id="bg-canvas"></canvas>
+
+    <header>
+        <h1 class="glitch-title">MISSION BRIEFING</h1>
+        <p class="subtitle">PROTOCOL: HUNTER ACTIVATED</p>
+    </header>
+
+    <div class="hologram-panel" id="panel">
+        <div class="typing-container" id="story-text"></div>
+
+        <div class="features-row">
+            <div class="feature-tile"><span class="feature-icon">⚡</span><span class="feature-label">Nitro</span></div>
+            <div class="feature-tile"><span class="feature-icon">🧲</span><span class="feature-label">Mag</span></div>
+            <div class="feature-tile"><span class="feature-icon">🧠</span><span class="feature-label">Hack</span></div>
+            <div class="feature-tile"><span class="feature-icon">👮</span><span class="feature-label">Hunt</span></div>
+            <div class="feature-tile"><span class="feature-icon">🌌</span><span class="feature-label">Shift</span></div>
+        </div>
+    </div>
+
+    <button class="btn-initiate" onclick="startGame()">▸ INITIATE RUN</button>
+
+    <div id="alert-overlay">
+        <div>
+            <h2>SIGNAL LOCKED</h2>
+            <p>REDIRECTING TO SECTOR 7...</p>
+        </div>
+    </div>
+
+    <script>
+        const story = `> SYSTEM BREACH DETECTED...\n> YOU BETRAYED SENTINEL AI.\n> EVERY SCANNER IS ACTIVE.\n> RUN THROUGH NEON STREETS.\n> HACK SYSTEMS. ESCAPE.\n> OR BE ERASED.`;
+
+        const storyContainer = document.getElementById('story-text');
+        let charIndex = 0;
+
+        function typeWriter() {
+            if (charIndex < story.length) {
+                storyContainer.innerHTML += story.charAt(charIndex) === '\n' ? '<br>' : story.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeWriter, 20);
+            } else {
+                // Add blinking cursor at the end
+                const cursor = document.createElement('span');
+                cursor.className = 'cursor-blink';
+                storyContainer.appendChild(cursor);
+            }
+        }
+
+        function startGame() {
+            document.getElementById('alert-overlay').style.display = 'flex';
+            setTimeout(() => {
+                document.body.classList.add('fade-out');
+                setTimeout(() => {
+                    window.location.href = 'gaming.html';
+                }, 300);
+            }, 1500);
+        }
+
+        // Grid background
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            drawGrid();
+        }
+
+        function drawGrid() {
+            ctx.strokeStyle = 'rgba(0, 242, 255, 0.1)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < canvas.width; i += 40) {
+                ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, canvas.height); ctx.stroke();
+            }
+            for (let i = 0; i < canvas.height; i += 40) {
+                ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(canvas.width, i); ctx.stroke();
+            }
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        typeWriter();
+    </script>
+
+</body>
+
+</html>
