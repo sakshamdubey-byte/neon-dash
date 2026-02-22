@@ -873,7 +873,7 @@
         let alphaStones = [];
         let alphaActive = false; // challenge UI active
         let alphaTimeRemaining = 0;
-        const ALPHA_TIME_LIMIT = 5000;
+        const ALPHA_TIME_LIMIT = 8000;
         let alphaCorrectOrder = [];
         let alphaClickIndex = 0;
         let alphaIsGolden = false;
@@ -1687,7 +1687,7 @@
             alphaIsGolden = isGolden;
             alphaTimeRemaining = ALPHA_TIME_LIMIT;
             alphaClickIndex = 0;
-            slowMotionFactor = 0.4; // 60% slower
+            slowMotionFactor = 0.25; // 75% slower
 
             // Difficulty scaling: more letters over time
             const letterCount = Math.min(7, ALPHA_BASE_LETTERS + Math.floor(alphaSuccessCount / 3));
